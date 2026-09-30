@@ -1,6 +1,7 @@
 import express from 'express';
 import { verifyPassword } from './password.mjs';
 import { PMS_PROJECT_ID } from './pms-config.mjs';
+import { allowedRequestOrigins } from './runtime-config.mjs';
 import { issueSession, verifySession, sessionConfigured, sessionLifetime } from './admin-session.mjs';
 
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -8,6 +9,7 @@ const fail = (status, message) => Object.assign(new Error(message), { status });
 
 export function createApp(config, { fetchImpl = fetch, now = Date.now } = {}) {
   const app = express();
+  const allowedOrigins = allowedRequestOrigins(config);
   const secure = config.NODE_ENV === 'production';
   const cookieName = secure ? '__Host-ann_admin' : 'ann_admin';
   const cookieOptions = { httpOnly: true, secure, sameSite: 'strict', path: '/' };
@@ -18,7 +20,7 @@ export function createApp(config, { fetchImpl = fetch, now = Date.now } = {}) {
   });
   app.use('/api', (req, _res, next) => {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
-      if (req.headers.origin !== config.APP_ORIGIN || !req.is('application/json')) {
+      if (!allowedOrigins.has(req.headers.origin) || !req.is('application/json')) {
         return next(fail(403, '허용되지 않은 요청입니다. 페이지를 새로고침해 주세요.'));
       }
     }

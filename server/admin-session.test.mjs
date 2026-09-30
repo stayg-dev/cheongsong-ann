@@ -19,7 +19,8 @@ test('signed sessions reject tampering, expiry and credential rotation', async (
 });
 
 test('Vercel preview and production origins use explicit deployment settings', () => {
-  assert.equal(runtimeConfig({ VERCEL: '1', VERCEL_ENV: 'preview', VERCEL_URL: 'preview.vercel.app', APP_ORIGIN: 'https://ann.example' }).APP_ORIGIN, 'https://preview.vercel.app');
+  assert.equal(runtimeConfig({ VERCEL: '1', VERCEL_ENV: 'preview', VERCEL_URL: 'preview.vercel.app', APP_ORIGIN: 'https://ann.example' }).APP_ORIGIN, 'https://ann.example');
+  assert.equal(runtimeConfig({ VERCEL: '1', VERCEL_ENV: 'preview', VERCEL_URL: 'preview.vercel.app' }).APP_ORIGIN, 'https://preview.vercel.app');
   assert.equal(runtimeConfig({ VERCEL: '1', VERCEL_ENV: 'production', VERCEL_URL: 'deployment.vercel.app', APP_ORIGIN: 'https://ann.example' }).APP_ORIGIN, 'https://ann.example');
   assert.equal(runtimeConfig({ VERCEL: '1', VERCEL_PROJECT_PRODUCTION_URL: 'ann.vercel.app' }).APP_ORIGIN, 'https://ann.vercel.app');
   assert.equal(runtimeConfig({ VERCEL: '1' }).NODE_ENV, 'production');

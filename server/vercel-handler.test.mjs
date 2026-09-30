@@ -5,7 +5,7 @@ import { hashPassword } from './password.mjs';
 
 test('Vercel entry handles secure login, PMS CRUD and sessions across function instances', async () => {
   const nativeFetch = globalThis.fetch;
-  const env = { VERCEL: '1', VERCEL_ENV: 'production', APP_ORIGIN: 'https://ann.example.com', ADMIN_PASSWORD_HASH: await hashPassword('admin123!'), ADMIN_SESSION_SECRET: 'vercel-test-session-secret-at-least-32-characters', PMS_API_KEY: 'vercel-test-pms-key-at-least-32-characters' };
+  const env = { VERCEL: '1', VERCEL_ENV: 'production', APP_ORIGIN: ' https://ann.example.com/ ', VERCEL_URL: 'ann-deployment.vercel.app', VERCEL_BRANCH_URL: 'ann-git-main.vercel.app', VERCEL_PROJECT_PRODUCTION_URL: 'ann.vercel.app', ADMIN_PASSWORD_HASH: await hashPassword('admin123!'), ADMIN_SESSION_SECRET: 'vercel-test-session-secret-at-least-32-characters', PMS_API_KEY: 'vercel-test-pms-key-at-least-32-characters' };
   const previous = Object.fromEntries(Object.keys(env).map((key) => [key, process.env[key]]));
   Object.assign(process.env, env);
   const calls = [];
@@ -23,7 +23,11 @@ test('Vercel entry handles secure login, PMS CRUD and sessions across function i
     }
     const first = `http://127.0.0.1:${servers[0].address().port}`;
     const second = `http://127.0.0.1:${servers[1].address().port}`;
-    const headers = { Origin: env.APP_ORIGIN, 'Content-Type': 'application/json' };
+    for (const origin of ['https://ann-deployment.vercel.app', 'https://ann-git-main.vercel.app', 'https://ann.vercel.app']) {
+      const response = await nativeFetch(`${first}/api/admin/login`, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify({ username: 'admin', password: 'admin123!' }) });
+      assert.equal(response.status, 200, `login from ${origin}`);
+    }
+    const headers = { Origin: 'https://ann.example.com', 'Content-Type': 'application/json' };
     const login = await nativeFetch(`${first}/api/admin/login`, { method: 'POST', headers, body: JSON.stringify({ username: 'admin', password: 'admin123!' }) });
     assert.equal(login.status, 200);
     const cookie = login.headers.get('set-cookie');
