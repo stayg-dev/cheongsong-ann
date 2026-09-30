@@ -1,0 +1,10 @@
+node_modules
+dist
+.env*
+!.env.example
+.git
+.vercel
+artifacts
+document
+*.log
+server/*.test.mjs

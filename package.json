@@ -1,0 +1,32 @@
+{
+  "name": "cheongsong-hanok-ann",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:web": "vite",
+    "dev:api": "node --watch server/index.mjs",
+    "start": "node server/index.mjs",
+    "setup:admin": "node scripts/setup-admin.mjs",
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "test": "node --test server/*.test.mjs",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "express": "^5.2.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4",
+    "sharp": "^0.35.5"
+  }
+}
