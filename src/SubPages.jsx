@@ -295,16 +295,18 @@ export function CompletePage() {
 }
 
 export function ManagePage() {
-  const [searched, setSearched] = useState(true);
-  const [cancelled, setCancelled] = useState(false);
   return (
     <>
       <PageHero />
       <main className="manage-page shell">
         <PageTitle eyebrow="Booking Management" title="예약 조회 · 취소" />
-        <SectionBar title="날짜 · 인원" english="Dates & Guests" />
-        <form className="manage-search" onSubmit={(event) => { event.preventDefault(); setSearched(true); }}><label>예약 번호 *<input defaultValue="2026.0708.00184" /></label><label>예약자명 *<input defaultValue="홍길동" /></label><label>연락처 *<input defaultValue="010-0000-0000" /></label><button>조회하기</button></form>
-        {searched && <><SectionBar title="조회 결과" english="1 booking found" /><article className="booking-result"><img src={asset('room-hunjang.webp')} alt="훈장댁" /><div><h2>훈장댁</h2><em>Hunjang-daek</em><p>예약 번호 · 2026.0708.00184</p></div><span className={cancelled ? 'cancelled' : ''}>{cancelled ? '예약 취소' : '예약 확정'}</span><div className="result-stay"><div><small>Check - in</small><b>2026.07.15 수</b></div><div><small>Check - out</small><b>2026.07.17 금</b></div><div><small>Nights</small><b>2박</b></div><div><small>Guests</small><b>성인 2명</b></div></div><footer><b>결제완료</b><strong>484,000원</strong><button type="button" disabled={cancelled} onClick={() => setCancelled(true)}>{cancelled ? '취소 완료' : '예약 취소'}</button></footer></article></>}
+        <SectionBar title="예약 정보" english="Booking Information" />
+        <form className="manage-search" onSubmit={(event) => { event.preventDefault(); window.alert('준비중입니다.'); }}>
+          <label>예약 번호 *<input name="reservationNumber" placeholder="예약 번호를 입력해 주세요" autoComplete="off" /></label>
+          <label>예약자명 *<input name="guestName" placeholder="예약자명을 입력해 주세요" autoComplete="off" /></label>
+          <label>연락처 *<input name="guestPhone" type="tel" placeholder="연락처를 입력해 주세요" autoComplete="off" /></label>
+          <button type="submit">조회하기</button>
+        </form>
         <p className="inquiry">문의 · 010-8218-3334</p>
       </main>
     </>

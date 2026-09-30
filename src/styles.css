@@ -365,7 +365,7 @@ button { font: inherit; }
 .complete-actions a:first-child { color: var(--paper); background: #1f1b17; }
 .inquiry { margin: 38px 0 0; color: #8a8074; font-size: 18px; text-align: center; }
 
-.manage-page { min-height: 3854px; padding-top: 140px; }
+.manage-page { padding: 140px 0; }
 .manage-page .page-title { margin-bottom: 110px; }
 .manage-search { padding: 0 48px 34px; border: 1px solid var(--ink); }
 .manage-search label { height: 93px; display: grid; grid-template-columns: 200px 1fr; align-items: center; border-bottom: 1px solid rgba(118,97,72,.45); font-size: 18px; }
