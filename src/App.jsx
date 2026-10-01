@@ -195,8 +195,8 @@ function Location() {
       <div className="location shell">
         <SectionHeading eyebrow="LOCATION" title="오시는 길" />
         <div className="location-content">
-          <a className="map-placeholder" href="https://naver.me/FWT3Ahud" target="_blank" rel="noreferrer" aria-label="네이버 지도에서 위치 보기">
-            <span>MAP</span>
+          <a className="location-map" href="https://naver.me/FWT3Ahud" target="_blank" rel="noreferrer" aria-label="네이버 지도에서 위치 보기">
+            <img src="/assets/location-map.webp" alt="청송 한옥호텔 안과 주변 도로, 주차장 위치 안내 지도" width="1956" height="1387" loading="lazy" decoding="async" />
           </a>
           <dl>
             {details.map(([term, description]) => (
